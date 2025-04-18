@@ -21,7 +21,6 @@
   <link rel="stylesheet" href="../assets/css/theme.css">
 </head>
 <body>
-
   <!-- Back to top button -->
   <div class="back-to-top"></div>
 
@@ -62,6 +61,21 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Left Side -->
             <ul class="navbar-nav mr-auto">
+                @auth
+                <li>
+                    <!-- Dashboard Button -->
+                    <a href="{{
+                        Auth::user()->role == 'admin' ? route('admin.dashboard') :
+                        (Auth::user()->role == 'doctor' ? route('doctor.dashboard') :
+                        (Auth::user()->role == 'receptionist' ? route('receptionist.dashboard') :
+                        (Auth::user()->role == 'pharmacist' ? route('pharmacist.dashboard') : '#')))
+                    }}"
+                       class="px-4 py-2 text-white rounded hover:bg-blue-600"
+                       style="background-color: #2f855a !important;">
+                        Dashboard
+                    </a>
+                </li>
+                @endauth
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url('/') }}">Home</a>
                 </li>
@@ -181,12 +195,12 @@
 
 @include('user.latest')
 
- 
+
 
   @include('user.appointment')
 
-  
- 
+
+
   <footer class="page-footer">
     <div class="container">
       <div class="row px-md-3">
@@ -248,6 +262,6 @@
 <script src="../assets/vendor/wow/wow.min.js"></script>
 
 <script src="../assets/js/theme.js"></script>
-  
+
 </body>
 </html>

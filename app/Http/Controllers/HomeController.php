@@ -8,14 +8,11 @@ use App\Models\User;
 
 class HomeController extends Controller
 {
-    public function redirect()
+   public function redirect()
     {
         if (Auth::id()) {
-            if (Auth::user()->usertype == '0') {
-                return view('user.home');
-            } else {
-                return view('admin.home'); // this will now load properly
-            }
+            // Stay on the same page after login
+            return view('user.home');
         } else {
             return redirect()->back();
         }
@@ -25,4 +22,3 @@ class HomeController extends Controller
     }
 }
 
-    
