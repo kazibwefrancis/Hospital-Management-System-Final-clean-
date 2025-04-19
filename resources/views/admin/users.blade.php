@@ -14,6 +14,13 @@
                     <ul id="suggestions" class="list-group position-absolute w-100 shadow mt-2" style="z-index: 1000; max-width: 600px; display: none;"></ul>
                 </div>
             </div>
+{{--            right aligned add user button--}}
+            <!-- ➕ Add User Button -->
+            <div class="mb-4 text-end">
+                <a href="{{ route('adduser') }}" class="btn btn-success btn-lg">
+                    <i class="bi bi-person-plus"></i> Add User
+                </a>
+            </div>
 
             <div class="row g-4">
                 <!-- 🛡️ Administrators Card -->
@@ -183,16 +190,18 @@
                             suggestionBox.innerHTML = '';
                             if (data.length > 0) {
                                 suggestionBox.style.display = 'block';
+
                                 data.forEach(user => {
                                     const li = document.createElement('li');
                                     li.textContent = `${user.name} (${user.role})`;
                                     li.classList.add('list-group-item', 'list-group-item-action');
                                     li.style.cursor = 'pointer';
+                                    li.setAttribute('data-user-id', user.id); // Store user ID
                                     li.onclick = () => {
-                                        alert(`Selected: ${user.name}`);
+                                        console.log(`Selected User ID: ${user.id}, Name: ${user.name}`);
                                         suggestionBox.innerHTML = '';
                                         suggestionBox.style.display = 'none';
-                                        userSearchInput.value = '';
+                                        userSearchInput.value = user.name; // Optionally set the input value to the selected user's name
                                     };
                                     suggestionBox.appendChild(li);
                                 });

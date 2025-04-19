@@ -14,11 +14,13 @@
                                   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 {{--                                  Animated CSS--}}
                                   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+{{--                                  font awesome--}}
+                                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOM8e+z5l5x5l5x5l5x5l5x5l5x5l5x5l5x5" crossorigin="anonymous">
                               </head>
                               <body class="font-sans antialiased bg-light">
 
                                   <!-- Top Navigation -->
-                                  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow">
+                                  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow" style="position: sticky; top: 0; z-index: 100;">
                                       <div class="container-fluid">
                                           <a class="navbar-brand fw-bold text-primary" href="{{ route('dashboard') }}">
                                               <i class="bi bi-speedometer2"></i> {{ config('app.name', 'Laravel') }}
@@ -37,6 +39,7 @@
                                                               <button type="submit" class="dropdown-item"><i class="bi bi-box-arrow-right"></i> Logout</button>
                                                           </form>
                                                       </li>
+
                                                   </ul>
                                               </div>
                                           </div>
@@ -56,10 +59,10 @@
                                                       <a class="nav-link text-white" href="{{ route('users') }}"><i class="bi bi-people"></i> User Management</a>
                                                   </li>
                                                   <li class="nav-item">
-                                                      <a class="nav-link text-white" href="{{ route('dashboard') }}"><i class="bi bi-clock-history"></i> Activity Logs</a>
+                                                      <a class="nav-link text-white" href="{{ route('recent.activities')}}"><i class="bi bi-clock-history"></i> Activity Logs</a>
                                                   </li>
                                                   <li class="nav-item">
-                                                      <a class="nav-link text-white" href="{{ route('dashboard') }}"><i class="bi bi-file-earmark-text"></i> Reports</a>
+                                                      <a class="nav-link text-white" href="{{ route('admin.reports') }}"><i class="bi bi-file-earmark-text"></i> Reports</a>
                                                   </li>
                                               @endif
                                               @if (Auth::user() && Auth::user()->role === 'doctor')
@@ -80,6 +83,7 @@
                                                   <li class="nav-item">
                                                       <a class="nav-link text-white" href="#"><i class="bi bi-calendar-check"></i> Appointments</a>
                                                   </li>
+
                                               @endif
                                               @if (Auth::user() && Auth::user()->role === 'pharmacist')
                                                   <li class="nav-item">

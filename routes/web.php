@@ -65,3 +65,13 @@ Route::get('admin/analytics',[Admin::class,'analytics'])->name('admin.dashboard'
 
 //view your profile as a user
 Route::get('user/profile/{id}', [Admin::class, 'viewprofile'])->name('user.profile')->middleware('auth');
+
+//view all recent activities
+Route::get('admin/recentActivities',[Admin::class,'recentActivities'])->name('recent.activities')->middleware('auth');
+
+//activity details
+Route::get('/activities/{id}', [Admin::class, 'showActivity'])->name('activities.show');
+
+//reports
+Route::get('/admin/reports', [Admin::class, 'reports'])->name('admin.reports')->middleware('auth');
+

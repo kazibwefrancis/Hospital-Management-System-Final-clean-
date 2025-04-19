@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Patient;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 // Validate the request
 use Illuminate\Validation\ValidationException;
+use OwenIt\Auditing\Models\Audit;
 
 class Admin extends Controller
 {
@@ -87,18 +89,28 @@ class Admin extends Controller
     {
         // Fetch data for analytics
         $totalUsers = \App\Models\User::count();
-        $activeUsers = 20; // \App\Models\User::where('is_active', true)->count();
-        $newUsers = 10; // \App\Models\User::whereMonth('created_at', now()->month)->count();
-        $recentActivities =["Activity one", "Activity two","Activity three"]; // \App\Models\ActivityLog::latest()->take(10)->get()?:null;
-        $serverUptime = 100; //shell_exec('uptime'); // Example for server uptime
-        $dbQueries = null; // \DB::getQueryLog(); // Enable query log before using this
-        $errorLogs =500; // \App\Models\ErrorLog::count(); // Example for error logs
+        $admins = \App\Models\User::where('role', 'admin')->count();
+        $doctors = \App\Models\User::where('role', 'doctor')->count();
+        $receptionists = \App\Models\User::where('role', 'receptionist')->count();
+        $totalPatients = \App\Models\User::where('role', 'patient')->count();
+        $patientsLast7Days = \App\Models\User::where('role', 'patient')
+            ->where('created_at', '>=', now()->subDays(7))
+            ->count();
+
+        // Dummy values for additional metrics
+       $recentActivities = Audit::latest()->take(5)->get();
+        $serverUptime = "99.99%"; // Example uptime percentage
+        $dbQueries = 120; // Example number of database queries
+        $errorLogs = 5; // Example number of error logs
 
         // Pass data to the view
         return view('admin.analytics', compact(
             'totalUsers',
-            'activeUsers',
-            'newUsers',
+            'admins',
+            'doctors',
+            'receptionists',
+            'totalPatients',
+            'patientsLast7Days',
             'recentActivities',
             'serverUptime',
             'dbQueries',
@@ -194,6 +206,16 @@ class Admin extends Controller
         //
     }
 
+    public function recentActivities(){
+
+            // Fetch the recent activities from the Audit model
+            $recentActivities = Audit::latest()->get();
+
+            // Return the view with the recent activities data
+            return view('admin.activities', compact('recentActivities'));
+
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -205,6 +227,7 @@ class Admin extends Controller
         //
     }
 
+
     public function viewprofile($id)
     {
         // Retrieve the user by ID
@@ -213,4 +236,27 @@ class Admin extends Controller
         // Return the profile.show view with the user data
         return view('profile.show', compact('user'));
     }
+
+    //show activity details
+    public function showActivity($id)
+    {
+        // Retrieve the audit log by ID
+        $activity = Audit::findOrFail($id);
+
+        // Return the view with the activity data
+        return view('admin.activity_details', compact('activity'));
+    }
+
+    public function reports()
+    {
+        // Fetch data for reports
+        $totalUsers = User::count();
+        $totalPatients = Patient::count();
+        $recentActivities = Audit::latest()->take(5)->get();
+
+        // Pass data to the view
+        return view('admin.reports', compact('totalUsers', 'totalPatients', 'recentActivities'));
+    }
+
 }
+
