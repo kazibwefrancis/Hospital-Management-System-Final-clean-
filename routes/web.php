@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin;
+use App\Http\Controllers\DoctorController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 
@@ -47,6 +48,13 @@ Route::get('/pharmacist/dashboard', function () {
     return view('pharmacist.home');
 })->name('pharmacist.dashboard')->middleware('auth');
 
+//route ton show all users
+Route::get('admin/users',[Admin::class,'index'])->name('users')->middleware('auth');
+Route::get('/admin/users/search', [Admin::class, 'search'])->name('users.search');
+//view user profile
+Route::get('admin/users/{id}',[Admin::class,'show'])->name('profile.view')->middleware('auth');
+//update user profile
+Route::put('admin/users/update/{id}', [Admin::class, 'updateUser'])->name('profile.edit')->middleware('auth');
 //route to add user form
 Route::get('admin/adduser',[Admin::class,'adduser'])->name('adduser')->middleware('auth');
 //route to add user
@@ -54,3 +62,6 @@ Route::post('admin/adduser',[Admin::class,'saveuser'])->name('saveuser')->middle
 
 //route to analytics for admin
 Route::get('admin/analytics',[Admin::class,'analytics'])->name('admin.dashboard')->middleware('auth');
+
+//view your profile as a user
+Route::get('user/profile/{id}', [Admin::class, 'viewprofile'])->name('user.profile')->middleware('auth');
