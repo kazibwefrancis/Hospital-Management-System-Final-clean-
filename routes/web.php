@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin;
 use App\Http\Controllers\DoctorController;
+use App\Http\Controllers\ReceptionistController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 
@@ -43,6 +44,24 @@ Route::get('/receptionist/dashboard', function () {
     return view('admin.receptionist.home');
 })->name('receptionist.dashboard')->middleware('auth');
 
+//Route to receptionist registering a walkin patient
+Route::get('/receptionist/register-patient', [ReceptionistController::class, 'registerPatient'])->name('register.patient');
+//Route to receptionist viewing bill of a paitent
+Route::get('/receptionist/view-bills', [ReceptionistController::class, 'viewBills'])->name('view.bills');
+//Route to receptionist printing bill of a paitent
+Route::get('/receptionist/print-bill', [ReceptionistController::class, 'printBill'])->name('print.bill');
+Route::get('/receptionist/print-bill/{id}', [ReceptionistController::class, 'printBill'])->name('print.bill');
+Route::get('/receptionist/print-bill/{patient_id}', [ReceptionistController::class, 'printBill'])->name('print.bill');
+//Route to receptionist scheduling an appointment
+Route::get('/receptionist/schedule-appointment', [ReceptionistController::class, 'scheduleAppointment'])->name('schedule.appointment');
+// Route to save a new patient
+Route::post('/receptionist/save-patient', [ReceptionistController::class, 'savePatient'])->name('save.patient');
+//Route to receptionist viewing appointments
+Route::get('/receptionist/view-appointments', [ReceptionistController::class, 'viewAppointments'])->name('view.appointments');
+
+Route::post('/appointment/{id}/confirm', [ReceptionistController::class, 'confirmAppointment'])->name('appointment.confirm');
+Route::post('/appointment/{id}/reject', [ReceptionistController::class, 'rejectAppointment'])->name('appointment.reject');
+
 //Route to pharmacist dashboard when button is pressed
 Route::get('/pharmacist/dashboard', function () {
     return view('pharmacist.home');
@@ -74,4 +93,6 @@ Route::get('/activities/{id}', [Admin::class, 'showActivity'])->name('activities
 
 //reports
 Route::get('/admin/reports', [Admin::class, 'reports'])->name('admin.reports')->middleware('auth');
+
+Route::post('/save-appointment', [HomeController::class, 'saveAppointment'])->name('save.appointment');
 

@@ -15,7 +15,7 @@
 {{--                                  Animated CSS--}}
                                   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 {{--                                  font awesome--}}
-                                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOM8e+z5l5x5l5x5l5x5l5x5l5x5l5x5l5x5" crossorigin="anonymous">
+                                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOM8e+z5l5x5l5x5l5x5l5x5l5x5l5x5l5" crossorigin="anonymous">
                               </head>
                               <body class="font-sans antialiased bg-light">
 
@@ -28,7 +28,9 @@
                                           <div class="d-flex align-items-center">
                                               <div class="dropdown">
                                                   <button class="btn btn-light dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                                      <img class="rounded-circle me-2" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" style="width: 30px; height: 30px;">
+                                                      @if(Auth::check())
+                                                          <img class="rounded-circle me-2" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" style="width: 30px; height: 30px;">
+                                                      @endif
                                                       {{ Auth::user()->name }}
                                                   </button>
                                                   <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">

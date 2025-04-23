@@ -14,7 +14,7 @@ class Admin extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
+     
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     // In `app/Http/Controllers/AdminController.php`
@@ -84,6 +84,7 @@ class Admin extends Controller
             return redirect()->back()->with('error', 'Failed to add user: ' . $e->getMessage());
         }
     }
+
 
     public function analytics()
     {
